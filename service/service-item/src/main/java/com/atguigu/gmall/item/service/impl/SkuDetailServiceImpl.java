@@ -1,6 +1,7 @@
 package com.atguigu.gmall.item.service.impl;
 
 import com.atguigu.gmall.common.result.Result;
+import com.atguigu.gmall.common.util.Jsons;
 import com.atguigu.gmall.item.feign.SkuDetailFeignClient;
 import com.atguigu.gmall.item.service.SkuDetailService;
 import com.atguigu.gmall.model.product.SkuImage;
@@ -9,10 +10,14 @@ import com.atguigu.gmall.model.product.SpuSaleAttr;
 import com.atguigu.gmall.model.to.CategoryViewTo;
 import com.atguigu.gmall.model.to.SkuDetailTo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import springfox.documentation.spring.web.json.Json;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.*;
 
 @Service
@@ -21,6 +26,7 @@ public class SkuDetailServiceImpl implements SkuDetailService {
     @Autowired
     SkuDetailFeignClient skuDetailFeignClient;
 
+//    private Map<Long,SkuDetailTo> skuCache = new ConcurrentHashMap<>();
 
     /**
      * 可配置的线程池，可自动注入
@@ -28,10 +34,12 @@ public class SkuDetailServiceImpl implements SkuDetailService {
     @Autowired
     ThreadPoolExecutor executor;
 
+    @Autowired
+    StringRedisTemplate redisTemplate;
 
 
-    @Override
-    public SkuDetailTo getSkuDetail(Long skuId) {
+    //未缓存优化前
+    public SkuDetailTo getSkuDetailFromRpc(Long skuId) {
         SkuDetailTo detailTo = new SkuDetailTo();
 
         //以前   一次远程超级调用【网络交互比较浪费时间】  查出所有数据直接给我们返回
@@ -132,4 +140,48 @@ public class SkuDetailServiceImpl implements SkuDetailService {
 
         return detailTo;
     }
+
+    @Override
+    public SkuDetailTo getSkuDetail(Long skuId) {
+
+        //1、看缓存中有没有
+        String jsonStr = redisTemplate.opsForValue().get("sku:info:" + skuId);
+        if ("x".equals(jsonStr)){
+            return null;
+        }
+        if (StringUtils.isEmpty(jsonStr)){
+            //2、Redis没有缓存数据
+            //2.1、回源
+            SkuDetailTo fromRpc = getSkuDetailFromRpc(skuId);
+            //2.2、放入缓存【查到的对象转为json字符串保存到Redis】
+            String cacheJson = "x";
+            if (fromRpc != null){
+                cacheJson = Jsons.toStr(fromRpc);
+                redisTemplate.opsForValue().set("sku:info:" + skuId, Jsons.toStr(fromRpc),7,TimeUnit.DAYS);
+            } else{
+                redisTemplate.opsForValue().set("sku:info:" + skuId, Jsons.toStr(fromRpc),30,TimeUnit.MINUTES);
+            }
+            return fromRpc;
+        }
+        //3、缓存中有
+        SkuDetailTo skuDetailTo = Jsons.toObj(jsonStr,SkuDetailTo.class);
+        return skuDetailTo;
+    }
+
+
+    //使用本地缓存
+//    @Override
+//    public SkuDetailTo getSkuDetail(Long skuId) {
+//        //1、先看缓存
+//        SkuDetailTo cacheData = skuCache.get(skuId);
+//        //2、判断
+//        if (cacheData == null){//缓存为空时
+//            //3、缓存没有,回源
+//            SkuDetailTo fromRpc = getSkuDetailFromRpc(skuId);
+//            skuCache.put(skuId,fromRpc);//skuCache是上面那个线程安全的map
+//            return fromRpc;
+//        }
+//        //4、缓存有
+//        return cacheData;
+//    }
 }
