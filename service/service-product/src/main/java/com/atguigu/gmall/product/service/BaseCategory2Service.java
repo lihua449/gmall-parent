@@ -13,6 +13,13 @@ import java.util.List;
 * @createDate 2022-08-22 15:20:15
 */
 public interface BaseCategory2Service extends IService<BaseCategory2> {
+
+
+    /**
+     * 查询1级分类下的所有二级分类
+     * @param c1Id
+     * @return
+     */
     List<BaseCategory2> getCategory1Child(Long c1Id);
 
     /**
@@ -20,4 +27,5 @@ public interface BaseCategory2Service extends IService<BaseCategory2> {
      * @return
      */
     List<CategoryTreeTo> getAllCategoryWithTree();
+
 }

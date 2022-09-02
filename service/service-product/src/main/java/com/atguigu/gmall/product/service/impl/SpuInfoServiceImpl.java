@@ -4,6 +4,7 @@ import com.atguigu.gmall.model.product.SpuImage;
 import com.atguigu.gmall.model.product.SpuInfo;
 import com.atguigu.gmall.model.product.SpuSaleAttr;
 import com.atguigu.gmall.model.product.SpuSaleAttrValue;
+import com.atguigu.gmall.product.mapper.SpuImageMapper;
 import com.atguigu.gmall.product.service.SpuImageService;
 import com.atguigu.gmall.product.service.SpuSaleAttrService;
 import com.atguigu.gmall.product.service.SpuSaleAttrValueService;
@@ -24,6 +25,7 @@ import java.util.List;
 @Service
 public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoMapper, SpuInfo>
     implements SpuInfoService{
+
     @Autowired
     SpuInfoMapper spuInfoMapper;
 

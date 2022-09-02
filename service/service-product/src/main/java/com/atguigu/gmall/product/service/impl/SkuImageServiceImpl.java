@@ -18,6 +18,8 @@ import java.util.List;
 @Service
 public class SkuImageServiceImpl extends ServiceImpl<SkuImageMapper, SkuImage>
     implements SkuImageService{
+
+
     @Autowired
     SkuImageMapper skuImageMapper;
 

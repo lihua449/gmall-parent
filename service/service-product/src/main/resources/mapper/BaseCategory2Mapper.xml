@@ -5,14 +5,16 @@
 <mapper namespace="com.atguigu.gmall.product.mapper.BaseCategory2Mapper">
 
     <resultMap id="BaseResultMap" type="com.atguigu.gmall.model.product.BaseCategory2">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="name" column="name" jdbcType="VARCHAR"/>
-            <result property="category1Id" column="category1_id" jdbcType="BIGINT"/>
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="category1Id" column="category1_id" jdbcType="BIGINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,name,category1_id
+        id
+        ,name,category1_id
     </sql>
+
 
     <!--  无限极不定分类怎么封装？ -->
     <!--    定义Category树形封装规则； 三级固定封装-->

@@ -14,6 +14,7 @@
         id,name,category2_id
     </sql>
 
+
     <resultMap id="CategoryViewRM" type="com.atguigu.gmall.model.to.CategoryViewTo">
         <id column="c1_id" property="category1Id"></id>
         <result column="c1_name" property="category1Name"></result>

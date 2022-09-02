@@ -14,6 +14,7 @@ import java.util.List;
 * @createDate 2022-08-23 10:12:44
 */
 public interface SkuInfoService extends IService<SkuInfo> {
+
     void saveSkuInfo(SkuInfo info);
 
     /**
@@ -55,4 +56,11 @@ public interface SkuInfoService extends IService<SkuInfo> {
      * @return
      */
     List<SkuImage> getDetailSkuImages(Long skuId);
+
+    /**
+     * 找到所有的商品id
+     * @return
+     */
+    List<Long> findAllSkuId();
+
 }

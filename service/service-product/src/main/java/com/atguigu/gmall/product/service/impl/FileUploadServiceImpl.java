@@ -13,12 +13,11 @@ import java.io.InputStream;
 import java.util.Date;
 import java.util.UUID;
 
-/**
- * @author: 李耀华
- * @date: 2022/8/30 1:42
- */
+
 @Service
 public class FileUploadServiceImpl implements FileUploadService {
+
+
     @Autowired
     MinioClient minioClient;
 
@@ -64,7 +63,7 @@ public class FileUploadServiceImpl implements FileUploadService {
                 dateStr+"/"+filename, //自己指定的唯一名
                 inputStream,
                 options
-        );
+                );
 
 
         //5、http://192.168.200.100:9000/gmall/filename

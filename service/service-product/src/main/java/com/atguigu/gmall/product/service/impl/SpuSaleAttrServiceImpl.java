@@ -21,6 +21,7 @@ import java.util.Map;
 @Service
 public class SpuSaleAttrServiceImpl extends ServiceImpl<SpuSaleAttrMapper, SpuSaleAttr>
     implements SpuSaleAttrService{
+
     @Autowired
     SpuSaleAttrMapper spuSaleAttrMapper;
 

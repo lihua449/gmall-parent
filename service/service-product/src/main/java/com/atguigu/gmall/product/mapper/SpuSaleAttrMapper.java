@@ -14,6 +14,7 @@ import java.util.List;
 * @Entity com.atguigu.gmall.product.domain.SpuSaleAttr
 */
 public interface SpuSaleAttrMapper extends BaseMapper<SpuSaleAttr> {
+
     /**
      * 根据spuId查询对应的所有销售属性名和值
      * @param spuId

@@ -11,6 +11,7 @@ import java.util.List;
 * @createDate 2022-08-23 10:12:44
 */
 public interface SkuImageService extends IService<SkuImage> {
+
     /**
      * 查询某个sku的所有图片
      * @param skuId

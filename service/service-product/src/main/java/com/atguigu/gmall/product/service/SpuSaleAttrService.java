@@ -11,6 +11,7 @@ import java.util.List;
 * @createDate 2022-08-23 10:12:44
 */
 public interface SpuSaleAttrService extends IService<SpuSaleAttr> {
+
     /**
      * 根据spuId查询对应的所有销售属性名和值
      * @param spuId

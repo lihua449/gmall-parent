@@ -2,8 +2,9 @@ package com.atguigu.gmall.web.controller;
 
 
 import com.atguigu.gmall.common.result.Result;
+import com.atguigu.gmall.feign.item.SkuDetailFeignClient;
 import com.atguigu.gmall.model.to.SkuDetailTo;
-import com.atguigu.gmall.web.feign.SkuDetailFeignClient;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +35,10 @@ public class ItemController {
         if(result.isOk()){
             SkuDetailTo skuDetailTo = result.getData();
 
+            if(skuDetailTo == null || skuDetailTo.getSkuInfo() == null){
+                //说明远程没有查到商品
+                return "item/404";
+            }
             model.addAttribute("categoryView",skuDetailTo.getCategoryView());
             model.addAttribute("skuInfo",skuDetailTo.getSkuInfo());
             model.addAttribute("price",skuDetailTo.getPrice());
