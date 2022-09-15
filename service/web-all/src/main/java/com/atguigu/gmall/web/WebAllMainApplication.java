@@ -1,6 +1,7 @@
 package com.atguigu.gmall.web;
 
 
+import com.atguigu.gmall.common.annotation.EnableAutoFeignInterceptor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -21,9 +22,9 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 //@EnableDiscoveryClient
 //@EnableCircuitBreaker
 
+@EnableAutoFeignInterceptor
 @EnableFeignClients(basePackages = {
-        "com.atguigu.gmall.feign.item",
-        "com.atguigu.gmall.feign.product"
+        "com.atguigu.gmall.feign"
 }) //只会扫描主程序所在的子包
 @SpringCloudApplication
 public class WebAllMainApplication {
